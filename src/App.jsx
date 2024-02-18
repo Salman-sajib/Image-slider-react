@@ -5,7 +5,7 @@ function App() {
     <div className='app'>
       <ImageSlider
         url={'https://picsum.photos/v2/list'}
-        page={'1'}
+        page={'2'}
         limit={'10'}
       />
     </div>

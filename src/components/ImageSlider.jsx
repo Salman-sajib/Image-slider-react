@@ -26,6 +26,14 @@ function ImageSlider({ url, limit = 5, page = 1 }) {
     }
   }
 
+  function handlePreviousClick() {
+    setCurrentSlide(currentSlide === 0 ? images.length - 1 : currentSlide - 1);
+  }
+
+  function handleNextClick() {
+    setCurrentSlide(currentSlide === images.length - 1 ? 0 : currentSlide + 1);
+  }
+
   useEffect(() => {
     if (url !== '') fetchImages(url);
   }, [url]);
@@ -42,22 +50,40 @@ function ImageSlider({ url, limit = 5, page = 1 }) {
 
   return (
     <div className='container'>
-      <BsArrowLeftCircleFill className='arrow arrow-left' />
+      <BsArrowLeftCircleFill
+        onClick={handlePreviousClick}
+        className='arrow arrow-left'
+      />
       {images && images.length
-        ? images.map((imageItem) => (
+        ? images.map((imageItem, index) => (
             <img
-              className='current-image'
+              className={
+                currentSlide === index
+                  ? 'current-image'
+                  : 'current-image hide-current-image'
+              }
               key={imageItem.id}
               src={imageItem.download_url}
               alt={imageItem.download_url}
             />
           ))
         : null}
-      <BsArrowRightCircleFill className='arrow arrow-right' />
+      <BsArrowRightCircleFill
+        onClick={handleNextClick}
+        className='arrow arrow-right'
+      />
       <span className='circle-indicators'>
         {images && images.length
           ? images.map((_, index) => (
-              <button key={index} className='current-indicator'></button>
+              <button
+                key={index}
+                className={
+                  currentSlide === index
+                    ? 'current-indicator'
+                    : 'current-indicator inactive-indicator'
+                }
+                onClick={() => setCurrentSlide(index)}
+              ></button>
             ))
           : null}
       </span>
