@@ -30,7 +30,7 @@ function ImageSlider({ url, limit = 5, page = 1 }) {
     if (url !== '') fetchImages(url);
   }, [url]);
 
-  console.log(images);
+  // console.log(images);
 
   if (loading) {
     return <p>Loading data! Please wait...</p>;
@@ -40,7 +40,29 @@ function ImageSlider({ url, limit = 5, page = 1 }) {
     return <p>Error occured! {errorMsg} </p>;
   }
 
-  return <div className='container'>ImageSlider</div>;
+  return (
+    <div className='container'>
+      <BsArrowLeftCircleFill className='arrow arrow-left' />
+      {images && images.length
+        ? images.map((imageItem) => (
+            <img
+              className='current-image'
+              key={imageItem.id}
+              src={imageItem.download_url}
+              alt={imageItem.download_url}
+            />
+          ))
+        : null}
+      <BsArrowRightCircleFill className='arrow arrow-right' />
+      <span className='circle-indicators'>
+        {images && images.length
+          ? images.map((_, index) => (
+              <button key={index} className='current-indicator'></button>
+            ))
+          : null}
+      </span>
+    </div>
+  );
 }
 
 export default ImageSlider;
