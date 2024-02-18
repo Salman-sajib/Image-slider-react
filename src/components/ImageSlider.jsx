@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 
-function ImageSlider({ url, limit }) {
+function ImageSlider({ url, limit = 5, page = 1 }) {
   const [images, setImages] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -11,7 +12,7 @@ function ImageSlider({ url, limit }) {
     try {
       setLoading(true);
 
-      const response = await fetch(getUrl);
+      const response = await fetch(`${getUrl}?page=${page}&limit=${limit}`);
       const data = await response.json();
 
       if (data) {
@@ -27,6 +28,8 @@ function ImageSlider({ url, limit }) {
   useEffect(() => {
     if (url !== '') fetchImages(url);
   }, [url]);
+
+  console.log(images);
 
   if (loading) {
     return <p>Loading data! Please wait...</p>;
